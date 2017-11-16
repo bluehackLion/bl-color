@@ -4,7 +4,7 @@ import grpc
 import feature_extract_pb2 as feature__extract__pb2
 
 
-class GreeterStub(object):
+class ExtractStub(object):
   # missing associated documentation comment in .proto file
   pass
 
@@ -14,18 +14,18 @@ class GreeterStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.SayHello = channel.unary_unary(
-        '/helloworld.Greeter/SayHello',
-        request_serializer=feature__extract__pb2.HelloRequest.SerializeToString,
-        response_deserializer=feature__extract__pb2.HelloReply.FromString,
+    self.GetFeature = channel.unary_unary(
+        '/extractfeature.Extract/GetFeature',
+        request_serializer=feature__extract__pb2.FeatureRequest.SerializeToString,
+        response_deserializer=feature__extract__pb2.FeatureReply.FromString,
         )
 
 
-class GreeterServicer(object):
+class ExtractServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
-  def SayHello(self, request, context):
+  def GetFeature(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -33,14 +33,14 @@ class GreeterServicer(object):
     raise NotImplementedError('Method not implemented!')
 
 
-def add_GreeterServicer_to_server(servicer, server):
+def add_ExtractServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'SayHello': grpc.unary_unary_rpc_method_handler(
-          servicer.SayHello,
-          request_deserializer=feature__extract__pb2.HelloRequest.FromString,
-          response_serializer=feature__extract__pb2.HelloReply.SerializeToString,
+      'GetFeature': grpc.unary_unary_rpc_method_handler(
+          servicer.GetFeature,
+          request_deserializer=feature__extract__pb2.FeatureRequest.FromString,
+          response_serializer=feature__extract__pb2.FeatureReply.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'helloworld.Greeter', rpc_method_handlers)
+      'extractfeature.Extract', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

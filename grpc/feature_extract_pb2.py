@@ -17,25 +17,25 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='feature_extract.proto',
-  package='helloworld',
+  package='extractfeature',
   syntax='proto3',
-  serialized_pb=_b('\n\x15\x66\x65\x61ture_extract.proto\x12\nhelloworld\"\x1c\n\x0cHelloRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\nHelloReply\x12\x0f\n\x07message\x18\x01 \x01(\t2I\n\x07Greeter\x12>\n\x08SayHello\x12\x18.helloworld.HelloRequest\x1a\x16.helloworld.HelloReply\"\x00\x42<\n\x1cio.stylelens.feature.extractB\x13\x46\x65\x61tureExtractProtoP\x01\xa2\x02\x04STYLb\x06proto3')
+  serialized_pb=_b('\n\x15\x66\x65\x61ture_extract.proto\x12\x0e\x65xtractfeature\"#\n\x0e\x46\x65\x61tureRequest\x12\x11\n\tfile_data\x18\x01 \x01(\x0c\"\x1e\n\x0c\x46\x65\x61tureReply\x12\x0e\n\x06vector\x18\x01 \x01(\x0c\x32W\n\x07\x45xtract\x12L\n\nGetFeature\x12\x1e.extractfeature.FeatureRequest\x1a\x1c.extractfeature.FeatureReply\"\x00\x42<\n\x1cio.stylelens.feature.extractB\x13\x46\x65\x61tureExtractProtoP\x01\xa2\x02\x04STYLb\x06proto3')
 )
 
 
 
 
-_HELLOREQUEST = _descriptor.Descriptor(
-  name='HelloRequest',
-  full_name='helloworld.HelloRequest',
+_FEATUREREQUEST = _descriptor.Descriptor(
+  name='FeatureRequest',
+  full_name='extractfeature.FeatureRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='helloworld.HelloRequest.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='file_data', full_name='extractfeature.FeatureRequest.file_data', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -51,22 +51,22 @@ _HELLOREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=37,
-  serialized_end=65,
+  serialized_start=41,
+  serialized_end=76,
 )
 
 
-_HELLOREPLY = _descriptor.Descriptor(
-  name='HelloReply',
-  full_name='helloworld.HelloReply',
+_FEATUREREPLY = _descriptor.Descriptor(
+  name='FeatureReply',
+  full_name='extractfeature.FeatureReply',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message', full_name='helloworld.HelloReply.message', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
+      name='vector', full_name='extractfeature.FeatureReply.vector', index=0,
+      number=1, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -82,53 +82,53 @@ _HELLOREPLY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=67,
-  serialized_end=96,
+  serialized_start=78,
+  serialized_end=108,
 )
 
-DESCRIPTOR.message_types_by_name['HelloRequest'] = _HELLOREQUEST
-DESCRIPTOR.message_types_by_name['HelloReply'] = _HELLOREPLY
+DESCRIPTOR.message_types_by_name['FeatureRequest'] = _FEATUREREQUEST
+DESCRIPTOR.message_types_by_name['FeatureReply'] = _FEATUREREPLY
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-HelloRequest = _reflection.GeneratedProtocolMessageType('HelloRequest', (_message.Message,), dict(
-  DESCRIPTOR = _HELLOREQUEST,
+FeatureRequest = _reflection.GeneratedProtocolMessageType('FeatureRequest', (_message.Message,), dict(
+  DESCRIPTOR = _FEATUREREQUEST,
   __module__ = 'feature_extract_pb2'
-  # @@protoc_insertion_point(class_scope:helloworld.HelloRequest)
+  # @@protoc_insertion_point(class_scope:extractfeature.FeatureRequest)
   ))
-_sym_db.RegisterMessage(HelloRequest)
+_sym_db.RegisterMessage(FeatureRequest)
 
-HelloReply = _reflection.GeneratedProtocolMessageType('HelloReply', (_message.Message,), dict(
-  DESCRIPTOR = _HELLOREPLY,
+FeatureReply = _reflection.GeneratedProtocolMessageType('FeatureReply', (_message.Message,), dict(
+  DESCRIPTOR = _FEATUREREPLY,
   __module__ = 'feature_extract_pb2'
-  # @@protoc_insertion_point(class_scope:helloworld.HelloReply)
+  # @@protoc_insertion_point(class_scope:extractfeature.FeatureReply)
   ))
-_sym_db.RegisterMessage(HelloReply)
+_sym_db.RegisterMessage(FeatureReply)
 
 
 DESCRIPTOR.has_options = True
 DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('\n\034io.stylelens.feature.extractB\023FeatureExtractProtoP\001\242\002\004STYL'))
 
-_GREETER = _descriptor.ServiceDescriptor(
-  name='Greeter',
-  full_name='helloworld.Greeter',
+_EXTRACT = _descriptor.ServiceDescriptor(
+  name='Extract',
+  full_name='extractfeature.Extract',
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=98,
-  serialized_end=171,
+  serialized_start=110,
+  serialized_end=197,
   methods=[
   _descriptor.MethodDescriptor(
-    name='SayHello',
-    full_name='helloworld.Greeter.SayHello',
+    name='GetFeature',
+    full_name='extractfeature.Extract.GetFeature',
     index=0,
     containing_service=None,
-    input_type=_HELLOREQUEST,
-    output_type=_HELLOREPLY,
+    input_type=_FEATUREREQUEST,
+    output_type=_FEATUREREPLY,
     options=None,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_GREETER)
+_sym_db.RegisterServiceDescriptor(_EXTRACT)
 
-DESCRIPTOR.services_by_name['Greeter'] = _GREETER
+DESCRIPTOR.services_by_name['Extract'] = _EXTRACT
 
 # @@protoc_insertion_point(module_scope)

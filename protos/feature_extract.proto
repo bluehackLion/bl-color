@@ -19,18 +19,16 @@ option java_package = "io.stylelens.feature.extract";
 option java_outer_classname = "FeatureExtractProto";
 option objc_class_prefix = "STYL";
 
-package helloworld;
+package extractfeature;
 
-service Greeter {
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+service Extract{
+  rpc GetFeature(FeatureRequest) returns (FeatureReply) {}
 }
 
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
+message FeatureRequest {
+  bytes file_data = 1;
 }
 
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
+message FeatureReply {
+  bytes vector = 1;
 }

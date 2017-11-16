@@ -12,28 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""The Python implementation of the GRPC feature_extract.Greeter server."""
-
 from concurrent import futures
 import time
 
 import grpc
 
+from feature_extract import ExtractFeature
 import feature_extract_pb2
 import feature_extract_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 
-class Greeter(feature_extract_pb2_grpc.GreeterServicer):
+class Extract(feature_extract_pb2_grpc.ExtractServicer):
+  def __init__(self):
+    self.fe = ExtractFeature()
 
-  def SayHello(self, request, context):
-    return feature_extract_pb2.HelloReply(message='Hi, %s!' % request.name)
+  def GetFeature(self, request, context):
+    print(request)
+    feature = self.fe.extract_feature(request.file_data)
+    return feature_extract_pb2.FeatureReply(vector=feature)
 
 
 def serve():
-  server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-  feature_extract_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
+  server = grpc.server(futures.ThreadPoolExecutor(max_workers=50))
+  feature_extract_pb2_grpc.add_ExtractServicer_to_server(Extract(), server)
   server.add_insecure_port('[::]:50051')
   server.start()
   try:
