@@ -14,6 +14,7 @@
 
 from concurrent import futures
 import time
+import os
 
 import grpc
 
@@ -23,6 +24,7 @@ import feature_extract_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
+GRPC_PORT = os.environ['GRPC_PORT']
 
 class Extract(feature_extract_pb2_grpc.ExtractServicer):
   def __init__(self):
@@ -37,7 +39,7 @@ class Extract(feature_extract_pb2_grpc.ExtractServicer):
 def serve():
   server = grpc.server(futures.ThreadPoolExecutor(max_workers=50))
   feature_extract_pb2_grpc.add_ExtractServicer_to_server(Extract(), server)
-  server.add_insecure_port('[::]:50051')
+  server.add_insecure_port('[::]:' + GRPC_PORT)
   server.start()
   try:
     while True:
