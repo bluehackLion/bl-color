@@ -27,8 +27,9 @@ class ExtractFeature(object):
       graph_def.ParseFromString(f.read())
       _ = tf.import_graph_def(graph_def, name='')
 
-    with tf.Session() as self.sess:
-      self.pool3 = self.sess.graph.get_tensor_by_name('pool_3:0')
+    with tf.device('/device:GPU:0'):
+      with tf.Session() as self.sess:
+        self.pool3 = self.sess.graph.get_tensor_by_name('pool_3:0')
 
   def extract_feature(self, image_data):
     pool3_features = self.sess.run(self.pool3,{'DecodeJpeg/contents:0': image_data})

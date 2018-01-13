@@ -31,7 +31,6 @@ class Extract(feature_extract_pb2_grpc.ExtractServicer):
     self.fe = ExtractFeature()
 
   def GetFeature(self, request, context):
-    print(request)
     feature = self.fe.extract_feature(request.file_data)
     return feature_extract_pb2.FeatureReply(vector=feature)
 
