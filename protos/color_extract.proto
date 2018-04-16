@@ -15,20 +15,21 @@
 syntax = "proto3";
 
 option java_multiple_files = true;
-option java_package = "io.stylelens.feature.extract";
-option java_outer_classname = "FeatureExtractProto";
+option java_package = "io.stylelens.color.extract";
+option java_outer_classname = "ColorExtractProto";
 option objc_class_prefix = "STYL";
 
-package extractfeature;
+package extractcolor;
 
 service Extract{
-  rpc GetFeature(FeatureRequest) returns (FeatureReply) {}
+  rpc GetColor(ColorRequest) returns (ColorReply) {}
 }
 
-message FeatureRequest {
+message ColorRequest {
   bytes file_data = 1;
 }
 
-message FeatureReply {
-  bytes vector = 1;
+message ColorReply {
+  string color_code = 1;
+  float color_score = 2;
 }

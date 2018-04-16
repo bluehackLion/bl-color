@@ -18,26 +18,26 @@ import os
 
 import grpc
 
-from feature_extract import ExtractFeature
-import feature_extract_pb2
-import feature_extract_pb2_grpc
+from color_extract import ExtractColor
+import color_extract_pb2
+import color_extract_pb2_grpc
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 GRPC_PORT = os.environ['GRPC_PORT']
 
-class Extract(feature_extract_pb2_grpc.ExtractServicer):
+class Extract(color_extract_pb2_grpc.ExtractServicer):
   def __init__(self):
-    self.fe = ExtractFeature()
+    self.fe = ExtractColor()
 
-  def GetFeature(self, request, context):
-    feature = self.fe.extract_feature(request.file_data)
-    return feature_extract_pb2.FeatureReply(vector=feature)
+  def GetColor(self, request, context):
+    color_code, color_score = self.fe.extract_color(request.file_data)
+    return color_extract_pb2.ColorReply(string=color_code, float=color_score)
 
 
 def serve():
   server = grpc.server(futures.ThreadPoolExecutor(max_workers=50))
-  feature_extract_pb2_grpc.add_ExtractServicer_to_server(Extract(), server)
+  color_extract_pb2_grpc.add_ExtractServicer_to_server(Extract(), server)
   server.add_insecure_port('[::]:' + GRPC_PORT)
   server.start()
   try:

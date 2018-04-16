@@ -18,15 +18,15 @@ from __future__ import print_function
 
 import grpc
 
-from . import feature_extract_pb2
-from . import feature_extract_pb2_grpc
+from . import color_extract_pb2
+from . import color_extract_pb2_grpc
 
 
 
 def run():
   channel = grpc.insecure_channel('localhost:50051')
-  stub = feature_extract_pb2_grpc.GreeterStub(channel)
-  response = stub.SayHello(feature_extract_pb2.HelloRequest(name='bok'))
+  stub = color_extract_pb2_grpc.GreeterStub(channel)
+  response = stub.SayHello(color_extract_pb2.HelloRequest(name='bok'))
   print("Greeter client received: " + response.message)
 
 

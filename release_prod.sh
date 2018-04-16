@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 export ORG="bluelens"
-export IMAGE="bl-feature"
+export IMAGE="bl-color"
 export TAG="prod"
 
 docker login
