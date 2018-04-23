@@ -32,7 +32,7 @@ class Extract(color_extract_pb2_grpc.ExtractServicer):
 
   def GetColor(self, request, context):
     color_code, color_score = self.fe.extract_color(request.file_data)
-    return color_extract_pb2.ColorReply(string=color_code, float=color_score)
+    return color_extract_pb2.ColorReply(color_code=color_code, color_score=color_score)
 
 
 def serve():

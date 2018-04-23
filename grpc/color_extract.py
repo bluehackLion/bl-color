@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-    stylelens-feature
+    stylelens-color
 
     This is a API document for Object Detection on fashion items\"
 
@@ -13,50 +13,83 @@ from __future__ import absolute_import
 
 import numpy as np
 import tensorflow as tf
-
+from preprocessing import inception_preprocessing
+import os
 
 class ExtractColor(object):
   def __init__(self):
+    """
     try:
-      #MODEL = os.environ['CLASSIFY_GRAPH']
-      MODEL = '/Users/lion/PycharmProjects/bl-color/color_classification_model.pb'
-      #MODEL = '/Users/lion/PycharmProjects/bl-color/classify_image_graph_def.pb'
-      LABEL = '/Users/lion/PycharmProjects/bl-color/labels.txt'
+      MODEL = os.environ['CLASSIFY_GRAPH']
+      LABEL = os.environ['LABEL_MAP']
+      #MODEL = '/Users/lion/PycharmProjects/stylelens-color/color_classification_model.pb'
+      #LABEL = '/Users/lion/PycharmProjects/bl-color/labels.txt'
     except:
       print("!!! Need to define environment variable: CLASSIFY_GRAPH=/path/to/model.pb")
 
     with tf.gfile.FastGFile(MODEL, 'rb') as f:
+
+      print(MODEL)
       graph_def = tf.GraphDef()
       graph_def.ParseFromString(f.read())
       _ = tf.import_graph_def(graph_def, name='')
 
     #with tf.device('/device:GPU:0'):
     with tf.Session() as self.sess:
-      """
-      self.graph = self.sess.graph.get_operations()
-      for i in self.graph:
-        print(i)
-      """
       self.softmax_tensor = self.sess.graph.get_tensor_by_name('InceptionV3/Predictions/Softmax:0')
+    """
+
   def extract_color(self, image_data):
-    label_dic = {}
-    predict_color = self.sess.run(self.softmax_tensor, {'input:0': image_data})
-    predict_color = np.squeeze(predict_color)
-    color = predict_color.argsort()
+    try:
+      MODEL = os.environ['CLASSIFY_GRAPH']
+      LABEL = os.environ['LABEL_MAP']
+      GPU_NUM = os.environ['GPU_NUM']
+      GPU = '/device:GPU:' + GPU_NUM
+      #MODEL = '/Users/lion/PycharmProjects/stylelens-color/color_classification_model.pb'
+      #LABEL = '/Users/lion/PycharmProjects/bl-color/labels.txt'
+    except:
+      print("!!! Need to define environment variable: CLASSIFY_GRAPH=/path/to/model.pb")
+
+    with tf.gfile.FastGFile(MODEL, 'rb') as f:
+      print(MODEL)
+      graph_def = tf.GraphDef()
+      graph_def.ParseFromString(f.read())
+      _ = tf.import_graph_def(graph_def, name='')
+
+    image_data = tf.image.decode_jpeg(image_data, channels=3)
+    image_data = inception_preprocessing.preprocess_image(image_data, 299, 299, is_training=False)
+    image_data = tf.expand_dims(image_data, 0)
+    #LABEL = '/Users/lion/PycharmProjects/bl-color/labels.txt'
+    print(LABEL)
 
     #label 받아오기
-    label_f = open(self.LABEL,'rb')
+
+    label_dic = ['black', 'blue', 'brown', 'gray', 'green', 'mint', 'orange', 'pink', 'purple', 'red', 'white', 'yellow']
+    """
+    label_f = open(LABEL,'rb')
     lines = label_f.readlines()
     for w in lines:
       w = str(w).replace('b\'', "")
       w = w.replace("\\n", "")
       labels_data = w.split(':')
-      label_dic[labels_data[0]] = labels_data[1]
+      label_dic.append(labels_data[1])
+    """
 
-    answer_label = label_dic[color[-1]]
-    answer_score = predict_color[color[-1]]
+    #with tf.device(GPU):
+    with tf.Session() as self.sess:
+      self.softmax_tensor = self.sess.graph.get_tensor_by_name('InceptionV3/Predictions/Softmax:0')
 
-    print(answer_label, answer_score)
+      img = image_data.eval()
+      img = img.tolist()
 
-    return answer_label, answer_score
+      self.sess.graph
+      predict_color = self.sess.run(self.softmax_tensor, {'input:0': img})
+      predict_color = np.squeeze(predict_color)
+      color = predict_color.argmax()
+
+
+      answer_label = label_dic[color]
+      answer_score = predict_color[color]
+
+      return answer_label, answer_score
 

@@ -1,0 +1,12 @@
+0:black
+1:blue
+2:brown
+3:gray
+4:green
+5:mint
+6:orange
+7:pink
+8:purple
+9:red
+10:white
+11:yellow
